@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webpack/Babel-demo</title>
+</head>
+
+<body>
+  <!--
+    This div is added to remove the flicker that comes from bootstrap being loaded
+    first in index.js
+    REMEMBER to set display to "block" in index.js, otherwise you will not see anything
+  -->
+  <div id="all-content" style="display: none;">
+    <ul id="menu" class="header">
+      <li><a href="" id="about">About</a></li>
+      <li><a href="" id="ex1">Ex1</a></li>
+      <li><a href="" id="ex2">Ex2</a></li>
+      <li><a href="" id="ex3">Ex3</a></li>
+    </ul>
+
+    <div class="content">
+
+      <!-- This is were you should place your basic HTML for exercise-1 -->
+      <div id="ex1_html" style="display:none;">
+        <h3>Exercise 1</h3>
+        <p>Add your basic HTML for Exercise 1 here</p>
+        <ul id="jokes"></ul>
+
+      </div>
+      <!-- End of HTML for exercise-1 -->
+
+
+
+      <!-- This is were you should place your basic HTML for exercise-2 -->
+      <div id="ex2_html" style="display:none;">
+        <h3>Exercise 2</h3>
+        <p id="ex2p">Add your basic HTML for Exercise 2 here</p>
+      </div>
+      <!-- End of HTML for exercise-2 -->
+
+
+      <!-- This is were you should place your basic HTML for exercise-3 -->
+      <div id="ex3_html" style="display:none;">
+        <h3>Ex-3</h3>
+        <p>Add your basic HTML for Exercise 3 here</p>
+
+        <div class="row" style="min-height: 5em;"">
+      <div class=" col-md-8 pre-scrollable" style="background-color: lightgrey;">
+          <h5>All Users</h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Age</th>
+                <th>Name
+                <th>
+                <th>Gender</th>
+                <th>Email </th>
+            </thead>
+            <tbody id="allUserRows">
+            <tbody>
+          </table>
+        </div>
+        <div class="col-md-4" style="background-color: powderblue;">
+          <h5>Find User</h5>
+        </div>
+      </div>
+      <div class="row" style="min-height: 5em;">
+        <div class="col-md-4" style="background-color: powderblue;">
+          <h5>Add User</h5>
+        </div>
+        <div class="col-md-4" style="background-color: lightgrey;">
+          <h5>Edit User</h5>
+        </div>
+        <div class="col-md-4" style="background-color: powderblue;">
+          <h5>Delete User</h5>
+        </div>
+      </div>
+      <!-- </div> -->
+      <!-- End of HTML for exercise-3 -->
+
+      <!---- HTML for the About page -->
+
+    </div>
+
+    <div id="about_html" style="display:none;">
+      <h3>About</h3>
+      <p>Watch the small video given as intro to this code, BEFORE you start using it</p>
+    </div>
+    <!-- End of HTML for ABOUT Page -->
+
+
+    <!--End of all content -->
+  </div>
+
+  <!-- #################################################################-->
+  <!-- IMPORTANT  DO NOT IMPORT ANY JavaScript in this file by YOURSELF -->
+  <!-- #################################################################-->
+
+</body>
+
+</html>
