@@ -1,9 +1,19 @@
 const URL = "http://localhost:8080/ca1/api/person";
 //const for prood environment must be created
 
-function getPerson(id){
+function getPersonById(id){
     return fetch(URL+"/"+id)
     .then(handleHttpErrors);
+};
+
+function getPersonByPhoneNumber(phoneNumber){
+  return fetch(URL+"/byPhoneNumber/"+phoneNumber)
+  .then(handleHttpErrors);
+};
+
+function getPersonsByZip(zip){
+  return fetch(URL+"/byZip/"+zip)
+  .then(handleHttpErrors);
 };
 
 
@@ -32,7 +42,9 @@ function makeOptions(method, body) {
 
 
    const personFacade = {
-    getPerson
+    getPersonById,
+    getPersonByPhoneNumber,
+    getPersonsByZip
 };
 
    export default personFacade;

@@ -14,28 +14,56 @@ document.getElementById("all-content").style.display = "block"
 
 const SEARCHBYID = document.getElementById("searchById");
 const SEARCHBYPHONE = document.getElementById("searchByPhoneNumber");
+const SEARCHBYZIP = document.getElementById("searchByZip");
 
 
+function createTableBasedOnSinglePerson (person){
+  var personInfo = [{"id" : person.id ,"firstname" : person.firstName, "lastname" : person.lastName, "email" : person.email}];
+  utilityFacade.createTable(personInfo,"result");
 
+  var addressInfo = [person.address];
+  utilityFacade.createTable(addressInfo,"result");
+
+  var phoneInfo = person.phones;
+  utilityFacade.createTable(phoneInfo,"result");
+  
+  var hobbyInfo = person.hobbies;
+  utilityFacade.createTable(hobbyInfo,"result");
+}
 
 function getPersonById(id) {
-  personFacade.getPerson(id)
+  personFacade.getPersonById(id)
       .then(person => {
-        //Cleans table for fresh table
-        document.getElementById("result").innerHTML = "";
-        console.log(person);
-        var personInfo = [{"id" : person.id ,"firstname" : person.firstName, "lastname" : person.lastName, "email" : person.email}];
-        utilityFacade.createTable(personInfo,"result");
+        createTableBasedOnSinglePerson(person);
+      })
+      .catch(err => {
+          if (err.status) {
+              err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
+          }
+          else { console.log("Network error"); }
+      });
+}
 
-        var addressInfo = [person.address];
-        utilityFacade.createTable(addressInfo,"result");
+function getPersonByPhoneNumber(phonenumber) {
+  personFacade.getPersonByPhoneNumber(phonenumber)
+      .then(person => {
+        createTableBasedOnSinglePerson(person);
+      })
+      .catch(err => {
+          if (err.status) {
+              err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
+          }
+          else { console.log("Network error"); }
+      });
+}
 
-        var phoneInfo = person.phones;
-        utilityFacade.createTable(phoneInfo,"result");
-        
-        var hobbyInfo = person.hobbies;
-        utilityFacade.createTable(hobbyInfo,"result");
-
+function getPersonsByZip(zip) {
+  personFacade.getPersonsByZip(zip)
+      .then(data => {
+        console.log(data);
+        data.all.forEach(person => {
+          createTableBasedOnSinglePerson(person);
+        });
       })
       .catch(err => {
           if (err.status) {
@@ -46,8 +74,12 @@ function getPersonById(id) {
 }
 
 
+
+
+
 function validateInput (event){
   document.getElementById("error").innerHTML = "";
+  document.getElementById("result").innerHTML = "";
   const buttonId = event.target.id;
   const inputData = document.getElementById("inputText").value;
   if(inputData == ""){
@@ -55,12 +87,15 @@ function validateInput (event){
   } else if(buttonId == "searchById"){
     getPersonById(inputData);
   } else if(buttonId == "searchByPhoneNumber"){
-    alert(inputData);
-  }
+    getPersonByPhoneNumber(inputData);
+  } else if(buttonId == "searchByZip"){
+    getPersonsByZip(inputData);
+  } 
 }
 
 SEARCHBYID.addEventListener("click", validateInput);
 SEARCHBYPHONE.addEventListener("click", validateInput);
+SEARCHBYZIP.addEventListener("click", validateInput);
 
 
 /* JS For Exercise-2 below */
