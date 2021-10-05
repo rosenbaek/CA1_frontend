@@ -1,8 +1,6 @@
 
 function createTable(objectArray, divId) {
   var fieldTitles = Object.keys(objectArray[0]);
-        console.log(objectArray);
-        console.log(fieldTitles);
     let body = document.getElementById(divId);
     let tbl = document.createElement('table');
     let thead = document.createElement('thead');
@@ -20,7 +18,6 @@ function createTable(objectArray, divId) {
     objectArray.forEach((object) => {
       let tr = document.createElement('tr');
       Object.values(object).forEach((field) => {
-        console.log(field);
         var td = document.createElement('td');
         td.appendChild(document.createTextNode(field));
         tr.appendChild(td);

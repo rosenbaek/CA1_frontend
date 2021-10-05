@@ -12,11 +12,17 @@ document.getElementById("all-content").style.display = "block"
 
 /* JS For Exercise-1 below */
 
+const SEARCHBYID = document.getElementById("searchById");
+const SEARCHBYPHONE = document.getElementById("searchByPhoneNumber");
 
-  
+
+
+
 function getPersonById(id) {
   personFacade.getPerson(id)
       .then(person => {
+        //Cleans table for fresh table
+        document.getElementById("result").innerHTML = "";
         console.log(person);
         var personInfo = [{"id" : person.id ,"firstname" : person.firstName, "lastname" : person.lastName, "email" : person.email}];
         utilityFacade.createTable(personInfo,"result");
@@ -38,8 +44,23 @@ function getPersonById(id) {
           else { console.log("Network error"); }
       });
 }
-getPersonById(1);
 
+
+function validateInput (event){
+  document.getElementById("error").innerHTML = "";
+  const buttonId = event.target.id;
+  const inputData = document.getElementById("inputText").value;
+  if(inputData == ""){
+    alert("Input type is empty");
+  } else if(buttonId == "searchById"){
+    getPersonById(inputData);
+  } else if(buttonId == "searchByPhoneNumber"){
+    alert(inputData);
+  }
+}
+
+SEARCHBYID.addEventListener("click", validateInput);
+SEARCHBYPHONE.addEventListener("click", validateInput);
 
 
 /* JS For Exercise-2 below */
