@@ -15,8 +15,7 @@
   -->
   <div id="all-content" style="display: none;">
     <ul id="menu" class="header">
-      <li><a href="" id="about">About</a></li>
-      <li><a href="" id="ex1">Ex1</a></li>
+      <li><a href="" id="frontpage">Frontpage</a></li>
       <li><a href="" id="ex2">Ex2</a></li>
       <li><a href="" id="ex3">Ex3</a></li>
     </ul>
@@ -24,17 +23,16 @@
     <div class="content">
 
       <!-- This is were you should place your basic HTML for exercise-1 -->
-      <div id="ex1_html" style="display:none;">
-        <h3>Exercise 1</h3>
-        <p>Add your basic HTML for Exercise 1 here</p>
-        <ul id="jokes"></ul>
-        <div id="searchDiv">
-          <input type="text" id="inputText" required/>
+      <div id="frontpage_html" style="display:none;">
+        <div class="d-flex flex-column align-items-center">
+        <h1>Welcome to Christian & Mikkel CA1</h1>
+        <div id="searchDiv" style="text-align: center;">
+          <input type="text" id="inputText" required style="margin-top: 10px;margin-bottom: 10px;" placeholder="Search" class="form-control"/>
           <br>
-          <button id="searchById">Search by Person ID</button>
-          <button id="searchByPhoneNumber">Search by Phone Number</button>
-          <button id="searchByZip">Search by Zip</button>
-          <button id="countPersonsWithHobby">Count Persons with hobby</button>
+          <button class="btn btn-primary" id="searchById">Search by Person ID</button>
+          <button class="btn btn-primary" id="searchByPhoneNumber">Search by Phone Number</button>
+          <button class="btn btn-primary" id="searchByZip">Search by Zip</button>
+          <button class="btn btn-primary" id="countPersonsWithHobby">Count Persons with hobby</button>
         </div>
 
         <div id="result">
@@ -43,7 +41,7 @@
         <div id="error">
 
         </div>
-
+      </div>
       </div>
       <!-- End of HTML for exercise-1 -->
 
@@ -101,10 +99,7 @@
 
     </div>
 
-    <div id="about_html" style="display:none;">
-      <h3>About</h3>
-      <p>Watch the small video given as intro to this code, BEFORE you start using it</p>
-    </div>
+    
     <!-- End of HTML for ABOUT Page -->
 
 
