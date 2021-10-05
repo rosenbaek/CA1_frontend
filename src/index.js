@@ -152,16 +152,14 @@ the Period2-week2-day3 Exercises
 function hideAllShowOne(idToShow) {
   //document.getElementById("about_html").style = "display:none"
   document.getElementById("frontpage_html").style = "display:none"
-  document.getElementById("ex2_html").style = "display:none"
-  document.getElementById("ex3_html").style = "display:none"
+  document.getElementById("addPerson_html").style = "display:none"
   document.getElementById(idToShow).style = "display:block"
 }
 
 function menuItemClicked(evt) {
   const id = evt.target.id;
   switch (id) {
-    case "ex2": hideAllShowOne("ex2_html"); break
-    case "ex3": hideAllShowOne("ex3_html"); break
+    case "addPerson": hideAllShowOne("addPerson_html"); break
     default: hideAllShowOne("frontpage_html"); break
   }
   evt.preventDefault();
