@@ -18,9 +18,18 @@ function getPersonById(id) {
   personFacade.getPerson(id)
       .then(person => {
         console.log(person);
-        var personInfo = [{"firstname" : person.firstName, "lastname" : person.lastName, "email" : person.email}];
+        var personInfo = [{"id" : person.id ,"firstname" : person.firstName, "lastname" : person.lastName, "email" : person.email}];
         utilityFacade.createTable(personInfo,"result");
-  
+
+        var addressInfo = [person.address];
+        utilityFacade.createTable(addressInfo,"result");
+
+        var phoneInfo = person.phones;
+        utilityFacade.createTable(phoneInfo,"result");
+        
+        var hobbyInfo = person.hobbies;
+        utilityFacade.createTable(hobbyInfo,"result");
+
       })
       .catch(err => {
           if (err.status) {
