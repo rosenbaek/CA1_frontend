@@ -1,7 +1,8 @@
 import "./style.css"
 import "bootstrap/dist/css/bootstrap.css"
 import "./jokeFacade"
-import jokeFacade from "./jokeFacade"
+import personFacade from "./personFacade"
+import utilityFacade from "./utilityFacade"
 
 document.getElementById("all-content").style.display = "block"
 
@@ -10,6 +11,26 @@ document.getElementById("all-content").style.display = "block"
 */
 
 /* JS For Exercise-1 below */
+
+
+  
+function getPersonById(id) {
+  personFacade.getPerson(id)
+      .then(person => {
+        console.log(person);
+        var personInfo = [{"firstname" : person.firstName, "lastname" : person.lastName, "email" : person.email}];
+        utilityFacade.createTable(personInfo,"result");
+  
+      })
+      .catch(err => {
+          if (err.status) {
+              err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
+          }
+          else { console.log("Network error"); }
+      });
+}
+getPersonById(1);
+
 
 
 /* JS For Exercise-2 below */
