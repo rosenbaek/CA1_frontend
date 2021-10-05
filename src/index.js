@@ -15,20 +15,42 @@ document.getElementById("all-content").style.display = "block"
 const SEARCHBYID = document.getElementById("searchById");
 const SEARCHBYPHONE = document.getElementById("searchByPhoneNumber");
 const SEARCHBYZIP = document.getElementById("searchByZip");
+const COUNTPERSONSWITHHOBBY = document.getElementById("countPersonsWithHobby");
 
 
 function createTableBasedOnSinglePerson (person){
+  const div = document.getElementById("result");
   var personInfo = [{"id" : person.id ,"firstname" : person.firstName, "lastname" : person.lastName, "email" : person.email}];
-  utilityFacade.createTable(personInfo,"result");
+  let table1 = utilityFacade.createTable(personInfo);
 
   var addressInfo = [person.address];
-  utilityFacade.createTable(addressInfo,"result");
+  let table2 = utilityFacade.createTable(addressInfo);
+
+  let card = document.createElement('div');
+  card.className = 'card shadow cursor-pointer';
+  card.style = 'width: 40rem; margin: 10px'
+  let cardBody = document.createElement('div');
+  cardBody.className = 'card-body';
+
+  cardBody.appendChild(table1);
+  cardBody.appendChild(table2);
 
   var phoneInfo = person.phones;
-  utilityFacade.createTable(phoneInfo,"result");
+  if(phoneInfo.length != 0){
+    let table3 = utilityFacade.createTable(phoneInfo);
+    cardBody.appendChild(table3);
+  }
+   
   
   var hobbyInfo = person.hobbies;
-  utilityFacade.createTable(hobbyInfo,"result");
+  if(hobbyInfo.length != 0){
+    let table4 = utilityFacade.createTable(hobbyInfo);
+    cardBody.appendChild(table4);
+  }
+
+  //Append card to div
+  card.appendChild(cardBody);
+  div.appendChild(card);
 }
 
 function getPersonById(id) {
@@ -73,6 +95,20 @@ function getPersonsByZip(zip) {
       });
 }
 
+function countPersonsWithHobby(hobby) {
+  personFacade.countPersonsWithHobby(hobby)
+      .then(data => {
+        console.log(data);
+        document.getElementById("result").innerHTML = `Number of persons with the hobby ${hobby}: ${data.amount}`;
+      })
+      .catch(err => {
+          if (err.status) {
+              err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
+          }
+          else { console.log("Network error"); }
+      });
+}
+
 
 
 
@@ -90,12 +126,15 @@ function validateInput (event){
     getPersonByPhoneNumber(inputData);
   } else if(buttonId == "searchByZip"){
     getPersonsByZip(inputData);
-  } 
+  } else if (buttonId == "countPersonsWithHobby"){
+    countPersonsWithHobby(inputData);
+  }
 }
 
 SEARCHBYID.addEventListener("click", validateInput);
 SEARCHBYPHONE.addEventListener("click", validateInput);
 SEARCHBYZIP.addEventListener("click", validateInput);
+COUNTPERSONSWITHHOBBY.addEventListener("click", validateInput);
 
 
 /* JS For Exercise-2 below */

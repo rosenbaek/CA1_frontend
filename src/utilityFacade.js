@@ -1,9 +1,10 @@
 
-function createTable(objectArray, divId) {
+function createTable(objectArray) {
   var fieldTitles = Object.keys(objectArray[0]);
-    let body = document.getElementById(divId);
     let tbl = document.createElement('table');
+    tbl.className = "table";
     let thead = document.createElement('thead');
+    thead.className = "thead-dark";
     let thr = document.createElement('tr');
     fieldTitles.forEach((fieldTitle) => {
       let th = document.createElement('th');
@@ -25,7 +26,6 @@ function createTable(objectArray, divId) {
       tbdy.appendChild(tr);    
     });
     tbl.appendChild(tbdy);
-    body.appendChild(tbl)
     return tbl;
   }
 

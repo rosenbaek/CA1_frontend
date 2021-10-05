@@ -16,6 +16,11 @@ function getPersonsByZip(zip){
   .then(handleHttpErrors);
 };
 
+function countPersonsWithHobby(hobby){
+  return fetch(URL+"/hobbyCount/"+hobby)
+  .then(handleHttpErrors);
+};
+
 
 
 
@@ -44,7 +49,8 @@ function makeOptions(method, body) {
    const personFacade = {
     getPersonById,
     getPersonByPhoneNumber,
-    getPersonsByZip
+    getPersonsByZip,
+    countPersonsWithHobby
 };
 
    export default personFacade;
