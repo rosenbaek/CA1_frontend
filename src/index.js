@@ -17,6 +17,7 @@ const SEARCHBYID = document.getElementById("searchById");
 const SEARCHBYPHONE = document.getElementById("searchByPhoneNumber");
 const SEARCHBYZIP = document.getElementById("searchByZip");
 const COUNTPERSONSWITHHOBBY = document.getElementById("countPersonsWithHobby");
+const ADDPHONENUMBER = document.getElementById("addPhoneNumber");
 
 
 function createTableBasedOnSinglePerson (person){
@@ -132,10 +133,40 @@ function validateInput (event){
   }
 }
 
+
+
+function validatePhoneNumber (event){
+  event.preventDefault();
+  const inputNumber = document.getElementById("addNumber").value;
+  const inputDesc = document.getElementById("addDescription").value;
+  if (inputNumber == "" || inputDesc == ""){
+    alert("Missing input data for phoneNumber or description")
+  } else{
+    //Updates unsorted list for user display
+    let ul = document.getElementById("phoneNumbers");
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(`Phonenumber: ${inputNumber}, Description: ${inputDesc}`));
+    ul.appendChild(li);
+
+    //Adds values to hidden attributes for submission
+    var phone = {};
+    phone.number = inputNumber;
+    phone.description = inputDesc;
+    var form = document.getElementById("addPersonForm");
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("value", JSON.stringify(phone));
+    input.setAttribute("id","addPhoneNumberList");
+    //append to form element that you want .
+    form.appendChild(input);
+  }
+}
+
 SEARCHBYID.addEventListener("click", validateInput);
 SEARCHBYPHONE.addEventListener("click", validateInput);
 SEARCHBYZIP.addEventListener("click", validateInput);
 COUNTPERSONSWITHHOBBY.addEventListener("click", validateInput);
+ADDPHONENUMBER.addEventListener("click",validatePhoneNumber);
 
 
 /* START Add Person */
@@ -178,10 +209,17 @@ function populateSelect(map,elementId){
     const addAdditionalInfo = document.getElementById("addAdditionalInfo").value;
     const addCity = document.getElementById("addCity").value;
     const addZip = document.getElementById("addZip").value;
-    const addNumber = document.getElementById("addNumber").value;
-    const addDescription = document.getElementById("addDescription").value;
+    //const addNumber = document.getElementById("addNumber").value;
+    //const addDescription = document.getElementById("addDescription").value;
+    const phones = document.querySelectorAll('#addPhoneNumberList');
     const addHobbyName = document.querySelectorAll('#addHobbyName option:checked');
-    
+   
+    let selectedPhones = [];
+    phones.forEach(x=>{
+      selectedPhones.push(JSON.parse(x.value));
+    });
+    console.log(selectedPhones);
+
     let selectedHobbies = [];
 
     addHobbyName.forEach(x=>{
@@ -200,12 +238,7 @@ function populateSelect(map,elementId){
       city : addCity,
       zipCode : addZip,
     };
-    person.phones =  [
-      {
-        number : addNumber,
-        description : addDescription
-      }
-    ];
+    person.phones =  selectedPhones;
     person.hobbies = selectedHobbies;
   
     console.log(person);
