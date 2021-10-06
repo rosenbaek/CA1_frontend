@@ -27,6 +27,12 @@ function addPerson(person){
   .then(handleHttpErrors);
 };
 
+function editPerson(person){
+  const options = makeOptions("PUT",person);
+  return fetch(URL+"/editperson",options)
+  .then(handleHttpErrors);
+};
+
 function getHobbyList(){
   return fetch(URL+"/hobbyList")
   .then(handleHttpErrors);
@@ -61,7 +67,8 @@ function makeOptions(method, body) {
     getPersonsByZip,
     countPersonsWithHobby,
     addPerson,
-    getHobbyList
+    getHobbyList,
+    editPerson
 };
 
    export default personFacade;

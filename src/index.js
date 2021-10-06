@@ -18,6 +18,8 @@ const SEARCHBYPHONE = document.getElementById("searchByPhoneNumber");
 const SEARCHBYZIP = document.getElementById("searchByZip");
 const COUNTPERSONSWITHHOBBY = document.getElementById("countPersonsWithHobby");
 const ADDPHONENUMBER = document.getElementById("addPhoneNumber");
+const ADDPHONENUMBER_EDIT = document.getElementById("editPhoneNumber");
+const SAVEBTN = document.getElementById("savebtn");
 
 function openModal (event) {
   callback(arguments[1]);
@@ -31,7 +33,7 @@ function populateModal (person) {
   let ul = document.getElementById("editPhoneNumbers");
   var form = document.getElementById("editPersonForm");
   ul.innerHTML = "";
-  
+  document.getElementById("personId").value = person.id;
   document.getElementById("editFirstName").value = person.firstName;
   document.getElementById("editLastName").value = person.lastName;
   document.getElementById("editEmail").value = person.email;
@@ -197,6 +199,32 @@ function validateInput (event){
   }
 }
 
+function validateEditPhoneNumber (event){
+  event.preventDefault();
+  const inputNumber = document.getElementById("editNumber").value;
+  const inputDesc = document.getElementById("editDescription").value;
+  if (inputNumber == "" || inputDesc == ""){
+    alert("Missing input data for phoneNumber or description")
+  } else{
+    //Updates unsorted list for user display
+    let ul = document.getElementById("editPhoneNumbers");
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(`Phonenumber: ${inputNumber}, Description: ${inputDesc}`));
+    ul.appendChild(li);
+
+    //Adds values to hidden attributes for submission
+    var phone = {};
+    phone.number = inputNumber;
+    phone.description = inputDesc;
+    var form = document.getElementById("editPersonForm");
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("value", JSON.stringify(phone));
+    input.setAttribute("id","editPhoneNumberList");
+    //append to form element that you want .
+    form.appendChild(input);
+  }
+}
 
 function validatePhoneNumber (event){
   event.preventDefault();
@@ -230,6 +258,7 @@ SEARCHBYPHONE.addEventListener("click", validateInput);
 SEARCHBYZIP.addEventListener("click", validateInput);
 COUNTPERSONSWITHHOBBY.addEventListener("click", validateInput);
 ADDPHONENUMBER.addEventListener("click",validatePhoneNumber);
+ADDPHONENUMBER_EDIT.addEventListener("click",validateEditPhoneNumber);
 
 
 /* START Add Person */
@@ -265,6 +294,62 @@ function populateSelect(map,elementId){
   })
 }
 
+function editPerson(){
+  const personId = document.getElementById("personId").value;
+  const editFirstName = document.getElementById("editFirstName").value;
+  const editLastName = document.getElementById("editLastName").value;
+  const editEmail = document.getElementById("editEmail").value;
+  const editStreet = document.getElementById("editStreet").value;
+  const editAdditionalInfo = document.getElementById("editAdditionalInfo").value;
+  const editCity = document.getElementById("editCity").value;
+  const editZip = document.getElementById("editZip").value;
+  //const addNumber = document.getElementById("addNumber").value;
+  //const addDescription = document.getElementById("addDescription").value;
+  const phones = document.querySelectorAll('#editPhoneNumberList');
+  const editHobbyName = document.querySelectorAll('#editHobbyName option:checked');
+ 
+  let selectedPhones = [];
+  phones.forEach(x=>{
+    selectedPhones.push(JSON.parse(x.value));
+  });
+  console.log(selectedPhones);
+
+  let selectedHobbies = [];
+console.log(editHobbyName);
+  editHobbyName.forEach(x=>{
+    selectedHobbies.push(hobbies.get(x.value));
+  });
+
+  console.log(selectedHobbies);
+
+  var person = new Object();
+  person.id = personId;
+  person.firstName = editFirstName;
+  person.lastName = editLastName;
+  person.email = editEmail;
+  person.address = {
+    street : editStreet,
+    additionalInfo : editAdditionalInfo,
+    city : editCity,
+    zipCode : editZip,
+  };
+  person.phones =  selectedPhones;
+  person.hobbies = selectedHobbies;
+
+  console.log(JSON.stringify(person));
+  personFacade.editPerson(person)
+  .then(data => {
+    console.log(data);
+  })
+  .catch(err => {
+    if (err.status) {
+      err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
+  }
+  else { console.log("Network error"); }
+  });
+  
+
+}
 
 
   const addPersonForm = document.getElementById("addPersonForm");
@@ -328,6 +413,11 @@ function populateSelect(map,elementId){
     event.preventDefault();
     addPerson();
   };
+
+  SAVEBTN.onclick = (event) => {
+    event.preventDefault();
+    editPerson();
+  }
 
 /* END Add Person */
 
