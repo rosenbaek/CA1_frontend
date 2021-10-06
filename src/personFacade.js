@@ -27,6 +27,11 @@ function addPerson(person){
   .then(handleHttpErrors);
 };
 
+function getHobbyList(){
+  return fetch(URL+"/hobbyList")
+  .then(handleHttpErrors);
+};
+
 
 function handleHttpErrors(res){
     if(!res.ok){
@@ -55,7 +60,8 @@ function makeOptions(method, body) {
     getPersonByPhoneNumber,
     getPersonsByZip,
     countPersonsWithHobby,
-    addPerson
+    addPerson,
+    getHobbyList
 };
 
    export default personFacade;

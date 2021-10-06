@@ -1,4 +1,5 @@
 import "./style.css"
+import "bootstrap"
 import "bootstrap/dist/css/bootstrap.css"
 import "./jokeFacade"
 import personFacade from "./personFacade"
@@ -138,6 +139,35 @@ COUNTPERSONSWITHHOBBY.addEventListener("click", validateInput);
 
 
 /* START Add Person */
+const hobbies = new Map();
+function getAllHobbies(){
+  personFacade.getHobbyList()
+  .then(data => {
+    data.all.forEach(hobby => {
+      hobbies.set(hobby.name,hobby);
+    });
+    populateSelect(hobbies,"addHobbyName");
+  })
+  .catch(err => {
+      if (err.status) {
+          err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
+      }
+      else { console.log("Network error"); }
+  });
+}
+
+function populateSelect(map,elementId){
+  var select = document.getElementById(elementId);
+  map.forEach(e => {
+    var el = document.createElement("option");
+    el.textContent = e.name;
+    el.value = e.name;
+    select.appendChild(el);
+  })
+}
+
+
+
   const addPersonForm = document.getElementById("addPersonForm");
 
   function addPerson(){
@@ -150,10 +180,15 @@ COUNTPERSONSWITHHOBBY.addEventListener("click", validateInput);
     const addZip = document.getElementById("addZip").value;
     const addNumber = document.getElementById("addNumber").value;
     const addDescription = document.getElementById("addDescription").value;
-    const addHobbyName = document.getElementById("addHobbyName").value;
-    const addHobbyWikiLink = document.getElementById("addHobbyWikiLink").value;
-    const addHobbyCategory = document.getElementById("addHobbyCategory").value;
-    const addHobbyType = document.getElementById("addHobbyType").value;
+    const addHobbyName = document.querySelectorAll('#addHobbyName option:checked');
+    
+    let selectedHobbies = [];
+
+    addHobbyName.forEach(x=>{
+      selectedHobbies.push(hobbies.get(x.value));
+    });
+
+    console.log(selectedHobbies);
 
     var person = new Object();
     person.firstName = addFirstName;
@@ -171,28 +206,18 @@ COUNTPERSONSWITHHOBBY.addEventListener("click", validateInput);
         description : addDescription
       }
     ];
-    person.hobbies = [
-      {
-        name : addHobbyName,
-        wikiLink : addHobbyWikiLink,
-        category : addHobbyCategory,
-        type : addHobbyType
-      }
-    ];
+    person.hobbies = selectedHobbies;
   
+    console.log(person);
     personFacade.addPerson(person)
     .then(data => {
       console.log(data);
     })
     .catch(err => {
-        if (err.status) {
-            error.FullError.then(e => {
-                err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
-            });
-        }
-        else {
-            console.log("Network error");
-        }
+      if (err.status) {
+        err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
+    }
+    else { console.log("Network error"); }
     });
     
 
@@ -221,7 +246,7 @@ function hideAllShowOne(idToShow) {
 function menuItemClicked(evt) {
   const id = evt.target.id;
   switch (id) {
-    case "addPerson": hideAllShowOne("addPerson_html"); break
+    case "addPerson": hideAllShowOne("addPerson_html"),getAllHobbies(); break
     default: hideAllShowOne("frontpage_html"); break
   }
   evt.preventDefault();
