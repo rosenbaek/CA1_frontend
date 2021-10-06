@@ -180,6 +180,20 @@ COUNTPERSONSWITHHOBBY.addEventListener("click", validateInput);
       }
     ];
   
+    personFacade.addPerson(person)
+    .then(data => {
+      console.log(data);
+    })
+    .catch(err => {
+        if (err.status) {
+            error.FullError.then(e => {
+                err.fullError.then(e => document.getElementById("error").innerHTML = JSON.stringify(e));
+            });
+        }
+        else {
+            console.log("Network error");
+        }
+    });
     
 
   }

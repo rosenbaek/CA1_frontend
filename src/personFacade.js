@@ -21,7 +21,11 @@ function countPersonsWithHobby(hobby){
   .then(handleHttpErrors);
 };
 
-
+function addPerson(person){
+  const options = makeOptions("POST",person);
+  return fetch(URL+"/addperson",options)
+  .then(handleHttpErrors);
+};
 
 
 function handleHttpErrors(res){
@@ -50,7 +54,8 @@ function makeOptions(method, body) {
     getPersonById,
     getPersonByPhoneNumber,
     getPersonsByZip,
-    countPersonsWithHobby
+    countPersonsWithHobby,
+    addPerson
 };
 
    export default personFacade;
