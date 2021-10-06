@@ -19,6 +19,61 @@ const SEARCHBYZIP = document.getElementById("searchByZip");
 const COUNTPERSONSWITHHOBBY = document.getElementById("countPersonsWithHobby");
 const ADDPHONENUMBER = document.getElementById("addPhoneNumber");
 
+function openModal (event) {
+  callback(arguments[1]);
+  event.preventDefault();
+  alert(event.currentTarget.person);
+}
+getAllHobbies();
+
+function populateModal (person) {
+  
+  let ul = document.getElementById("editPhoneNumbers");
+  var form = document.getElementById("editPersonForm");
+  ul.innerHTML = "";
+  
+  document.getElementById("editFirstName").value = person.firstName;
+  document.getElementById("editLastName").value = person.lastName;
+  document.getElementById("editEmail").value = person.email;
+  document.getElementById("editStreet").value = person.address.street;
+  document.getElementById("editAdditionalInfo").value = person.address.additionalInfo;
+  document.getElementById("editCity").value = person.address.city;
+  document.getElementById("editZip").value = person.address.zipCode;
+  console.log("phones"+person.phones);
+
+  //Made to remove orphans if canceling editform
+  var phones = document.querySelectorAll("#editPhoneNumberList");
+  phones.forEach(phone => {
+    form.removeChild(phone);
+  });
+  
+  person.phones.forEach(x => {
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(`Phonenumber: ${x.number}, Description: ${x.description}`));
+    ul.appendChild(li);
+
+    //Adds values to hidden attributes for submission
+
+    
+    var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("value", JSON.stringify(x));
+    input.setAttribute("id","editPhoneNumberList");
+    //append to form element that you want .
+    //form.removeChild(input);
+    form.appendChild(input);
+  })
+  
+  
+
+  person.hobbies.forEach(hobby =>{
+    console.log(hobby.name);
+    var formHobby = document.getElementById(hobby.name);
+    formHobby.selected = true;
+  });
+
+  
+}
 
 function createTableBasedOnSinglePerson (person){
   const div = document.getElementById("result");
@@ -52,8 +107,17 @@ function createTableBasedOnSinglePerson (person){
 
   //Append card to div
   card.appendChild(cardBody);
+  card.setAttribute("data-toggle", "modal");
+  card.setAttribute("data-target", ".bd-example-modal-xl");
+  card.addEventListener("click", function(){
+    populateModal(person);
+    openModal; 
+  });
+  card.person = person;
   div.appendChild(card);
 }
+
+
 
 function getPersonById(id) {
   personFacade.getPersonById(id)
@@ -134,7 +198,6 @@ function validateInput (event){
 }
 
 
-
 function validatePhoneNumber (event){
   event.preventDefault();
   const inputNumber = document.getElementById("addNumber").value;
@@ -177,6 +240,7 @@ function getAllHobbies(){
     data.all.forEach(hobby => {
       hobbies.set(hobby.name,hobby);
     });
+    populateSelect(hobbies,"editHobbyName");
     populateSelect(hobbies,"addHobbyName");
   })
   .catch(err => {
@@ -191,6 +255,10 @@ function populateSelect(map,elementId){
   var select = document.getElementById(elementId);
   map.forEach(e => {
     var el = document.createElement("option");
+    if(elementId == "editHobbyName"){
+      el.setAttribute("id", e.name);
+    }
+    
     el.textContent = e.name;
     el.value = e.name;
     select.appendChild(el);
