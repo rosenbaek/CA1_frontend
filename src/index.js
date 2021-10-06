@@ -137,11 +137,59 @@ SEARCHBYZIP.addEventListener("click", validateInput);
 COUNTPERSONSWITHHOBBY.addEventListener("click", validateInput);
 
 
-/* JS For Exercise-2 below */
+/* START Add Person */
+  const addPersonForm = document.getElementById("addPersonForm");
 
+  function addPerson(){
+    const addFirstName = document.getElementById("addFirstName").value;
+    const addLastName = document.getElementById("addLastName").value;
+    const addEmail = document.getElementById("addEmail").value;
+    const addStreet = document.getElementById("addStreet").value;
+    const addAdditionalInfo = document.getElementById("addAdditionalInfo").value;
+    const addCity = document.getElementById("addCity").value;
+    const addZip = document.getElementById("addZip").value;
+    const addNumber = document.getElementById("addNumber").value;
+    const addDescription = document.getElementById("addDescription").value;
+    const addHobbyName = document.getElementById("addHobbyName").value;
+    const addHobbyWikiLink = document.getElementById("addHobbyWikiLink").value;
+    const addHobbyCategory = document.getElementById("addHobbyCategory").value;
+    const addHobbyType = document.getElementById("addHobbyType").value;
 
+    var person = new Object();
+    person.firstName = addFirstName;
+    person.lastName = addLastName;
+    person.email = addEmail;
+    person.address = {
+      street : addStreet,
+      additionalInfo : addAdditionalInfo,
+      city : addCity,
+      zipCode : addZip,
+    };
+    person.phones =  [
+      {
+        number : addNumber,
+        description : addDescription
+      }
+    ];
+    person.hobbies = [
+      {
+        name : addHobbyName,
+        wikiLink : addHobbyWikiLink,
+        category : addHobbyCategory,
+        type : addHobbyType
+      }
+    ];
+  
+    
 
-/* JS For Exercise-3 below */
+  }
+
+  addPersonForm.onsubmit = (event) => {
+    event.preventDefault();
+    addPerson();
+  };
+
+/* END Add Person */
 
 
 /* 
