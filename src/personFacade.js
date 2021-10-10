@@ -1,40 +1,40 @@
-const URL = "http://localhost:8080/ca1/api/person";
+import {SERVER_URL} from '../constants'
 //const for prood environment must be created
 
 function getPersonById(id){
-    return fetch(URL+"/"+id)
+    return fetch(SERVER_URL+"/"+id)
     .then(handleHttpErrors);
 };
 
 function getPersonByPhoneNumber(phoneNumber){
-  return fetch(URL+"/byPhoneNumber/"+phoneNumber)
+  return fetch(SERVER_URL+"/byPhoneNumber/"+phoneNumber)
   .then(handleHttpErrors);
 };
 
 function getPersonsByZip(zip){
-  return fetch(URL+"/byZip/"+zip)
+  return fetch(SERVER_URL+"/byZip/"+zip)
   .then(handleHttpErrors);
 };
 
 function countPersonsWithHobby(hobby){
-  return fetch(URL+"/hobbyCount/"+hobby)
+  return fetch(SERVER_URL+"/hobbyCount/"+hobby)
   .then(handleHttpErrors);
 };
 
 function addPerson(person){
   const options = makeOptions("POST",person);
-  return fetch(URL+"/addperson",options)
+  return fetch(SERVER_URL+"/addperson",options)
   .then(handleHttpErrors);
 };
 
 function editPerson(person){
   const options = makeOptions("PUT",person);
-  return fetch(URL+"/editperson",options)
+  return fetch(SERVER_URL+"/editperson",options)
   .then(handleHttpErrors);
 };
 
 function getHobbyList(){
-  return fetch(URL+"/hobbyList")
+  return fetch(SERVER_URL+"/hobbyList")
   .then(handleHttpErrors);
 };
 
